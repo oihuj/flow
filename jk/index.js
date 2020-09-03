@@ -62,6 +62,19 @@ app.get('/flowlist', (req, res) => {
  })
 
 
+ //添加
+ app.post('/addflow',(req,res)=>{
+    console.log(req.body);
+    const sql=`insert into flowlist(flowname,flowimg,flownum,flowid,flowcategory,price) values('${req.body.flowname}','${req.body.flowimg}','${req.body.flownum}','${req.body.flowid}','${req.body.flowcategory}','${req.body.flowprice}')`
+    query(sql,result=>{
+        res.send({
+            msg:'添加成功',
+            status:200
+        })
+    })
+})
+
+
  //删除
  app.get('/del',(req,res)=>{
      console.log(req.query);
