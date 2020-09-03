@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://img01.hua.com/uploadpic/newpic/9012177.jpg_220x240.jpg" width="200" height="200" class="head_pic">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./jquery-1.12.4.min.js"></script>
+    <script>
+    //   var xhr=new XMLHttpRequest();
+    //   xhr.open('get','http:127.0.0.1:3000/data');
+    //   xhr.send()
+    //   xhr.onreadystatechange=function(){
+    //       if(xhr.readyState==4&&xhr.status==200){
+    //         console.log(xhr.responseText);
+    //       }
+    //   }
+
+    // axios.get('http:127.0.0.1:3000/data').then(res=>{
+    //       console.log(res.data);
+    //   })
+    $.ajax({
+        url:'http:127.0.0.1:8080/data',
+        type:'get',
+        success(data){
+            console.log(data);
+        }
+    })
+    
+    </script>
+</body>
+</html>
