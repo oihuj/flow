@@ -1,7 +1,12 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-    // 处理静态资源
+
+
+// const cors = require('koa2-cors');
+//  app.use(cors());
+
+// 处理静态资源
 app.use(express.static('public'))
     // 处理参数
 app.use(bodyParser.json());
@@ -45,49 +50,71 @@ app.post('/login', (req, res) => {
 
 // 查询所有鲜花
 app.get('/flowlist', (req, res) => {
-        const sql = `select*from flowlist`;
-        query(sql, result => {
-            res.send(result)
-        })
+    const sql = `select*from flowlist`;
+    query(sql, result => {
+        res.send(result)
     })
+})
+
+//根据id查询
+app.get('/flowid', (req, res) => {
+    const sql = `select*from flowlist where id=${req.query.id}`;
+    query(sql, result => {
+        res.send(result)
+    })
+})
 
 
- //搜索
- app.get('/select',(req,res)=>{
-     const sql=`select * from flowlist where flowname like "%${req.query.flowname}%" `;
-     console.log(req.query);
-     query(sql,result=>{
-         res.send(result)
-     })
- })
+//搜索
+app.get('/select', (req, res) => {
+    const sql = `select * from flowlist where flowname like "%${req.query.flowname}%" `;
+    console.log(req.query);
+    query(sql, result => {
+        res.send(result)
+    })
+})
 
-
- //添加
- app.post('/addflow',(req,res)=>{
+//修改
+app.post('/xiugai',(req,res)=>{
     console.log(req.body);
-    const sql=`insert into flowlist(flowname,flowimg,flownum,flowid,flowcategory,price) values('${req.body.flowname}','${req.body.flowimg}','${req.body.flownum}','${req.body.flowid}','${req.body.flowcategory}','${req.body.flowprice}')`
+    
+    const sql=`update flowlist set flowname='${req.body.flowname}',flowimg='${req.body.flowimg}',flownum='${req.body.flownum}',flowcategory='${req.body.flowcategory}',price='${req.body.flowprice}' where id=${req.body.id}`;
     query(sql,result=>{
+        console.log(sql);
         res.send({
-            msg:'添加成功',
+            msg:'修改成功',
             status:200
         })
     })
 })
 
 
- //删除
- app.get('/del',(req,res)=>{
-     console.log(req.query);
-     const sql=`delete from  flowlist where id=${req.query.id}`;
-     query(sql,result=>{
-         res.send({
-             msg:'删除成功',
-             status:200
-         })
-     })
- })
+//添加
+app.post('/addflow', (req, res) => {
+    console.log(req.body);
+    const sql = `insert into flowlist(flowname,flowimg,flownum,flowid,flowcategory,price) values('${req.body.flowname}','${req.body.flowimg}','${req.body.flownum}','${req.body.flowid}','${req.body.flowcategory}','${req.body.flowprice}')`
+    query(sql, result => {
+        res.send({
+            msg: '添加成功',
+            status: 200
+        })
+    })
+})
 
-    // 启动监听
+
+//删除
+app.get('/del', (req, res) => {
+    console.log(req.query);
+    const sql = `delete from  flowlist where id=${req.query.id}`;
+    query(sql, result => {
+        res.send({
+            msg: '删除成功',
+            status: 200
+        })
+    })
+})
+
+// 启动监听
 app.listen(3003, () => {
     console.log('running...')
 })
