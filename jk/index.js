@@ -75,15 +75,15 @@ app.get('/select', (req, res) => {
 })
 
 //修改
-app.post('/xiugai',(req,res)=>{
+app.post('/xiugai', (req, res) => {
     console.log(req.body);
-    
-    const sql=`update flowlist set flowname='${req.body.flowname}',flowimg='${req.body.flowimg}',flownum='${req.body.flownum}',flowcategory='${req.body.flowcategory}',price='${req.body.flowprice}' where id=${req.body.id}`;
-    query(sql,result=>{
+
+    const sql = `update flowlist set flowname='${req.body.flowname}',flowimg='${req.body.flowimg}',flownum='${req.body.flownum}',flowcategory='${req.body.flowcategory}',price='${req.body.flowprice}' where id=${req.body.id}`;
+    query(sql, result => {
         console.log(sql);
         res.send({
-            msg:'修改成功',
-            status:200
+            msg: '修改成功',
+            status: 200
         })
     })
 })
@@ -112,6 +112,82 @@ app.get('/del', (req, res) => {
             status: 200
         })
     })
+})
+
+
+//普通用户 ------
+app.get('/userlist', (req, res) => {
+    const sql = `select*from userlist`;
+    query(sql, result => {
+        res.send(result)
+    })
+})
+
+
+//修改用户vip
+app.post('/usxiug',(req,res)=>{
+    const sql=`update userlist set isvip=${req.body.isvip} where id=${req.body.id}`
+    query(sql,result=>{
+        res.send({
+            status:200
+        })
+    })
+    console.log(req.body);
+    
+})
+
+//删除用户
+app.get('/userdel',(req,res)=>{
+    const sql=`delete from userlist where id=${req.body.id}`
+    query(sql,result=>{
+        res.send({
+            status:200,
+            msg:'删除成功'
+        })
+    })
+})
+
+//批量删除
+app.post('/userplsc',(req,res)=>{
+    console.log(req.body);
+    var str='';
+    for (const key in req.body) {
+    //    console.log(key);
+       console.log(req.body[key]);
+       str+=req.body[key]+','
+        
+    }
+    str=str.substring(0,str.length-1);
+    var sql=`delete from userlist where id in(${str})`;
+    query(sql,result=>{
+        res.send({
+            msg:'删除成功',
+            status:200
+        })
+    })
+})
+
+//根据用户id查询来进行修改
+app.get('/userid', (req, res) => {
+    const sql = `select*from userlist where id=${req.query.id}`;
+    console.log(req.query);
+    
+    query(sql, result => {
+        res.send(result)
+    })
+})
+
+//修改用户
+app.post('/userupdate',(req,res)=>{
+    const sql= `update userlist set useremail='${req.body.usemail}',userpwd=${req.body.uspwd} where id=${req.body.id}`
+    console.log(req.body);
+    query(sql,result=>{
+        res.send({
+            status:200,
+            msg:'修改成功'
+        })
+    })
+    
 })
 
 // 启动监听
